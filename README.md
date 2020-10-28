@@ -22,7 +22,7 @@ The project software was developed in MPLAB X with the help of MPLAB Code Config
 The TMR0 module was configured such that the output frequency is 400Hz, which will generate a 100Hz update rate for the display.
 
 ### MCC TMR0 Editor Window:
-![TMR0 mcc](images/pic18f57q43-dma-2-led-tmr0.png)
+![TMR0 mcc](images/tmr0.png)
 
 ```c
 void TMR0_Initialize(void)
@@ -45,7 +45,7 @@ void TMR0_Initialize(void)
 PORTA was configured as all output and initially low. PORTB was configured with bits 0-3 as outputs and initially low.
 
 ### MCC PORT Editor Window:
-![DAC mcc](images/pic18f57q43-dma-2-led-ports.png)
+![MCC Port configuration](images/ports.png)
 
 ```c
 void PIN_MANAGER_Initialize(void)
