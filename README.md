@@ -16,7 +16,7 @@ The Curiosity Nano Adapter Board (DM164150) is used in conjunction with the Curi
 ![Complete project setup](images/LED.png)
 
 # Project Software Configuration:
-The project software was developed in MPLAB X with the help of MPLAB Code Configurator (MCC) plug-in tool. MCC provides a user-friendly interface that generates software based on the user’s parameters. MCC allows developers who may not be familiar with a new peripheral a way to quickly set up and test a peripheral without having to dive deep into the device datasheet. For this project, MCC was used to generate code for the NCO, and DAC modules.
+The project software was developed in MPLAB X with the help of MPLAB Code Configurator (MCC) plug-in tool. MCC provides a user-friendly interface that generates software based on the user’s parameters. MCC allows developers who may not be familiar with a new peripheral a way to quickly set up and test a peripheral without having to dive deep into the device datasheet. For this project, MCC was used to generate code for the NCO and TMR0 modules.
 
 ## TMR0 Configuration:
 The TMR0 module was configured such that the output frequency is 400Hz, which will generate a 100Hz update rate for the display.
@@ -90,7 +90,7 @@ void PIN_MANAGER_Initialize(void)
 ```
 
 ## DMA1 Configuration:
-The DMA1 peripheral is used to transfer the wave data from the array in GPR data memory, to the DAC1DATL register.  The timing of the transfer is regulated by the roll over frequency of the NCO.  Additionally, the priority of DMA1 is set to the highest priority to minimize the latency time between the NCO roll over and the output from the DAC.
+The DMA1 peripheral is used to transfer the wave data from the array in GPR data memory, to the LATA and LATB registers. The timing of the transfer is regulated by the roll over frequency of the TMR0 Additionally, the priority of DMA1 is set to the highest priority to minimize the latency time.
 
 ```c
 void DMA1_Initialize(void)
@@ -117,12 +117,12 @@ void DMA1_Initialize(void)
 ```
 
 ## Display and 7 segment data table arrays:
-The data table for display and 7 segment conversion are uint8_t arrays.  The buffer array is preloaded with the appropriate digit drive values and a blank segment drive
+The data table for display and 7 segment conversion are uint8_t arrays. The buffer array is preloaded with the appropriate digit drive values and a blank segment drive
 
 ```c
 // 7 segment and buffer arrays
 // BCD to 7 segment decoder array
-unsigned char seven[11]   = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0x00};
+unsigned char seven[11] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0x00};
 
 // display buffer array {value1,digit1,value2,digit2,value3,digit3,value4,digit4}
 unsigned char buffer[8] = {0x00, 0x01, 0x00, 0x02, 0x00, 0x04, 0x00, 0x08};
@@ -133,8 +133,6 @@ unsigned char buffer[8] = {0x00, 0x01, 0x00, 0x02, 0x00, 0x04, 0x00, 0x08};
 MCC can be used to configure basic system parameters, such as oscillator selection and other I/O pin configuration.
 Once all project parameters have been configured, simply press the ‘Generate’ button, and MCC will generate the drivers based on user inputs.
 
-### Generate Button:
-![Generate mcc](images/MCC_Generate_Button.png)
 
 # Conclusion:
-This project uses the PIC18F57Q43 microcontroller’s TMR0, PORTs, and DMA modules to create an automated 7-segment LED display driver that operates completely without firmware overhead.  The state machine design is based on using the source address counter in the DMA as the state latch, increment the state machine from 0-7 and then rolling over.  During each state, the DMA module transfers an appropriate value from the display buffer to the PORTs.
+This project uses the PIC18F57Q43 microcontroller’s TMR0, GPIOs, and DMA modules to create an automated 7-segment LED display driver that operates completely without firmware overhead. The state machine design is based on using the source address counter in the DMA as the state latch, increment the state machine from 0-7 and then rolling over. During each state, the DMA module transfers an appropriate value from the display buffer to the PORTs.
