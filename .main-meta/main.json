@@ -4,7 +4,7 @@
     "content": {
         "metaDataVersion": "1.1.0",
         "name": "com.microchip.mcu8.mplabx.project.pic18f57q43-automated-led-display-driver",
-        "version": "1.0.2",
+        "version": "1.0.0",
         "displayName": "PIC18-Q43 Automated LED Display Driver using DMA",
         "projectName": "pic18f57q43-automated-led-display-driver",
         "shortDescription": "Automated LED display driver using DMA.",
