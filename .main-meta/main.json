@@ -4,20 +4,20 @@
     "content": {
         "metaDataVersion": "1.1.0",
         "name": "com.microchip.mcu8.mplabx.project.pic18f57q43-automated-led-display-driver",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "displayName": "PIC18-Q43 Automated LED Display Driver using DMA",
         "projectName": "pic18f57q43-automated-led-display-driver",
         "shortDescription": "Automated LED display driver using DMA.",
         "ide": {
-            "name": "MPLABX",
+            "name": "MPLAB X",
             "semverRange": ">=5.40.0"
         },
         "compiler": [
-			{
-				"name": "XC8",
-				"semverRange": "^2.20.0"
-			}
-		],
+            {
+                "name": "XC8",
+                "semverRange": "^2.20.0"
+            }
+        ],
         "dfp": {
             "name": "PIC18F-Q_DFP",
             "semverRange": "^1.5.124"
@@ -40,31 +40,34 @@
         "subcategories": [
             "MCC",
             [
-               "Peripherals", "DMA"
+                "Peripherals",
+                "DMA"
             ],
             [
-               "Peripherals", "TMR0"
-            ]            			
+                "Peripherals",
+                "TMR0"
+            ]
         ],
         "peripherals": [
-            "DMA","Timer"
+            "DMA",
+            "Timer"
         ],
         "keywords": [
             "MCC",
             "LED Display driver",
             "Core Independent",
-            "DMA"			
+            "DMA"
         ],
-		"additionalData": {
-			"longDescription": {
-				"metaDataVersion": "1.0.0",
-				"category": "com.microchip.portal.fileRef",
-				"content": {
-					"metaDataVersion": "1.0.0",
-					"fileName": "./README.md",
-					"mimeType": "text/markdown"
-				}
-			}
-		}
-	}
+        "additionalData": {
+            "longDescription": {
+                "metaDataVersion": "1.0.0",
+                "category": "com.microchip.portal.fileRef",
+                "content": {
+                    "metaDataVersion": "1.0.0",
+                    "fileName": "./README.md",
+                    "mimeType": "text/markdown"
+                }
+            }
+        }
+    }
 }
