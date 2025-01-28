@@ -1,13 +1,26 @@
 <a href="https://www.microchip.com" rel="nofollow"><img src="images/microchip.png" alt="MCHP" width="300"/></a>
 
-# Objective:
+# Automated LED Display Driver Using PIC18-Q43 
+
+## Introduction
 This project highlights the use of the PIC18-Q43 family’s new DMA peripheral to create a state machine which drives a common cathode 4 digit LED display application. A table in GPR data memory contains the display and digit drive values, the DMA peripheral transfers the data from the memory to PORTA and PORTB, and Timer0 (TMR0) triggers the DMA transfer. The table contains 8 values for 4 digits of display, the even number entries are the 7 segment drive, and the odd are the digit drives.
 
-# Demo Configuration:
-The Curiosity Nano Adapter Board (DM164150) is used in conjunction with the Curiosity Nano Base for Click Boards (AC164162), and a solder-less breadboard as the development platform. The Nano Base board has three MikroElektronika Click board slots, several types of power connections, voltage regulation circuitry, and a header mount for the Nano Development board. For this project the Nano Base board was used as a connection platform for connecting to the microcontroller via header pins.
-
-### Curiosity Nano Development Board:
+#### Curiosity Nano Development Board:
 ![nano board](images/Nano.png)
+
+## Software Used
+- [MPLAB® X IDE 6.20](http://www.microchip.com/mplab/mplab-x-ide)
+- [MPLAB® XC8 3.00 compiler or newer](http://www.microchip.com/mplab/compilers)
+- [MPLAB® Code Configurator (MCC) 5.7.1](https://www.microchip.com/mplab/mplab-code-configurator)
+- [Microchip PIC18F-Q Series Device Support 1.26.442](https://packs.download.microchip.com/)
+
+## Hardware Used
+- [PIC18F57Q43 Curiosity Nano Evaluation Kit (DM164150)](https://www.microchip.com/en-us/development-tool/DM164150)
+- [Curiosity Nano Base for Click Boards (AC164162)](https://www.microchip.com/en-us/development-tool/ac164162)
+
+## Demo Configuration:
+The Curiosity Nano Adapter Board is used in conjunction with the Curiosity Nano Base for Click Boards, and a solder-less breadboard as the development platform. The Nano Base board has three MikroElektronika Click board slots, several types of power connections, voltage regulation circuitry, and a header mount for the Nano Development board. For this project the Nano Base board was used as a connection platform for connecting to the microcontroller via header pins.
+
 
 ### Complete Project schematic:
 ![complete project schematic](images/Display_Schematic.png)
@@ -15,106 +28,44 @@ The Curiosity Nano Adapter Board (DM164150) is used in conjunction with the Curi
 ### Complete Project Setup:
 ![Complete project setup](images/LED.png)
 
-# Project Software Configuration:
-The project software was developed in MPLAB X with the help of MPLAB Code Configurator (MCC) plug-in tool. MCC provides a user-friendly interface that generates software based on the user’s parameters. MCC allows developers who may not be familiar with a new peripheral a way to quickly set up and test a peripheral without having to dive deep into the device datasheet. For this project, MCC was used to generate code for the NCO and TMR0 modules.
+### Project Software Configuration:
+The project software was developed in MPLAB X with the help of MPLAB Code Configurator (MCC) plug-in tool. MCC provides a user-friendly interface that generates software based on the user’s parameters. MCC allows developers who may not be familiar with a new peripheral a way to quickly set up and test a peripheral without having to dive deep into the device datasheet. For this project, MCC was used to generate code for the and TMR0 modules.
 
-## TMR0 Configuration:
-The TMR0 module was configured such that the output frequency is 400Hz, which will generate a 100Hz update rate for the display.
+## TMR0 Configuration
+TMR0 was configured to output a frequency of 400Hz, which will generate a 100Hz update rate for the display.
 
-### MCC TMR0 Editor Window:
-![TMR0 mcc](images/tmr0.png)
+### TMR0 Settings
+- Timer Enable: Enabled
+- Timer Mode: 8-bit
+- Clock Source: FOSC/4
+- Synchronization Enable: Disabled
+- Prescaler: 1:256
+- Postscaler: 1:1
+- Requested Period: 2.56 ms
+- TMR Interrupt Enabled: Disabled
 
-```c
-void TMR0_Initialize(void)
-{
-    // Set TMR0 to the options selected in the User Interface
-    // T0CS FOSC/4; T0CKPS 1:256; T0ASYNC synchronised;
-    T0CON1 = 0x48;
-    // TMR0H 19;
-    TMR0H = 0x13;
-    // TMR0L 0;
-    TMR0L = 0x00;
-    // Clearing IF flag
-    PIR3bits.TMR0IF = 0;
-    // T0OUTPS 1:1; T0EN enabled; T016BIT 8-bit;
-    T0CON0 = 0x80;
-}
-```
-
-## PORTA and PORTB Configuration:
+## PORTA and PORTB Configuration
 PORTA was configured as all output and initially low. PORTB was configured with bits 0-3 as outputs and initially low.
 
-### MCC PORT Editor Window:
-![MCC Port configuration](images/ports.png)
+## DMA1 Configuration
+The DMA1 peripheral is used to transfer the wave data from the array in GPR data memory, to the LATA and LATB registers. The timing of the transfer is regulated by the roll over frequency of TMR0. Additionally, the priority of DMA1 is set to the highest priority to minimize the latency time.
 
-```c
-void PIN_MANAGER_Initialize(void)
-{
-    /**
-    LATx registers
-    */
-    LATA = 0x00;
-    LATB = 0x00;
-    /**
-    TRISx registers
-    */
-    TRISA = 0x00;
-    TRISB = 0xF0;
-    /**
-    ANSELx registers
-    */
-    ANSELB = 0xFF;
-    ANSELA = 0xFF;
-    /**
-    WPUx registers
-    */
-    WPUB = 0x00;
-    WPUA = 0x00;
-    /**
-    /**
-    ODx registers
-    */
-    ODCONA = 0x00;
-    ODCONB = 0x00;
-    /**
-    SLRCONx registers
-    */
-    SLRCONA = 0xFF;
-    SLRCONB = 0xFF;
-    /**
-    INLVLx registers
-    */
-    INLVLA = 0xFF;
-    INLVLB = 0xFF;
-}
-```
+### DMA1 Settings
+- DMA Enable: Enabled 
+- Start Trigger: TMR0
+- Abort Trigger: None
+- Source Region: GPR
+- Source Variable: displayBuffer
+- Source Size: 8
+- Source Mode: incremented
+- Source Message Size: 8
+- Source Counter Reload Action: SIRQEN is not cleared
+- Destination Region: SFR
+- Destination Module: ADCC (This value doesn't matter as the actual destination address will be set in software)
+- Destination SFR: ADLTHL  (This value doesn't matter as the actual destination address will be set in software)  
+- Destination Message Size: 2
+- Destination Counter Reload Action: SIRQEN is not cleared
 
-## DMA1 Configuration:
-The DMA1 peripheral is used to transfer the wave data from the array in GPR data memory, to the LATA and LATB registers. The timing of the transfer is regulated by the roll over frequency of the TMR0 Additionally, the priority of DMA1 is set to the highest priority to minimize the latency time.
-
-```c
-void DMA1_Initialize(void)
-{
-    DMASELECT = 0;		    	// Select DMA1
-    DMAnSSA = &buffer[0];   	//set source start address: display buffer
-    DMAnDSA = 0x04BE;    		//set destination start address: LATA (LATB is 0x04BF)
-    DMAnCON1 = 0x42; 	    	//set control register1: both source and destination increment
-    DMAnSSZ = 0x0008; 	    	//set source size is 8 locations: buffer, 4 segment, 4 digit
-    DMAnDSZ = 0x0002; 	    	//set destination size: PORTA and PORTB
-    DMAnSIRQ = 0x1F; 		    //set DMA Transfer Trigger Source: TMR0 trigger
-    DMAnAIRQ = 0x01; 		    //set DMA Transfer abort Source: none
-    DMAnCON0 = 0xC0; 		    //set control register0: enable
-
-	asm ("BANKSEL PRLOCK");	    // unlock priority setting register
-    asm ("MOVLW 0x55");
-    asm ("MOVWF PRLOCK");
-    asm ("MOVLW 0xAA");
-    asm ("MOVWF PRLOCK");
-    asm ("BSF PRLOCK, 0");
-	DMA1PR = 0;			        //set DMA1 to highest priority
-}
-
-```
 
 ## Display and 7 segment data table arrays:
 The data table for display and 7 segment conversion are uint8_t arrays. The buffer array is preloaded with the appropriate digit drive values and a blank segment drive
