@@ -10,21 +10,21 @@
         "shortDescription": "Automated LED display driver using DMA.",
         "ide": {
             "name": "MPLAB X",
-            "semverRange": "^=6.20.0"
+            "semverRange": "^6.2.0"
         },
         "compiler": [
             {
                 "name": "XC8",
-                "semverRange": "^=3.00.0"
+                "semverRange": "^3.0.0"
             }
         ],
         "dfp": {
             "name": "PIC18F-Q_DFP",
-            "semverRange": "^=1.26.442"
+            "semverRange": "^1.26.442"
         },
         "configurator": {
             "name": "MCC",
-            "semverRange": "^=5.7.1"
+            "semverRange": ">=5.7.1"
         },
         "device": {
             "metaDataVersion": "1.0.0",
