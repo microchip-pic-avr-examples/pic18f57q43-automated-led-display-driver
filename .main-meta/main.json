@@ -4,27 +4,27 @@
     "content": {
         "metaDataVersion": "1.1.0",
         "name": "com.microchip.mcu8.mplabx.project.pic18f57q43-automated-led-display-driver",
-        "version": "1.0.1",
+        "version": "2.0.0",
         "displayName": "PIC18-Q43 Automated LED Display Driver using DMA",
         "projectName": "pic18f57q43-automated-led-display-driver",
         "shortDescription": "Automated LED display driver using DMA.",
         "ide": {
             "name": "MPLAB X",
-            "semverRange": ">=5.40.0"
+            "semverRange": ">=5.20.0"
         },
         "compiler": [
             {
                 "name": "XC8",
-                "semverRange": "^2.20.0"
+                "semverRange": "^3.00.0"
             }
         ],
         "dfp": {
             "name": "PIC18F-Q_DFP",
-            "semverRange": "^1.5.124"
+            "semverRange": "^1.26.442"
         },
         "configurator": {
             "name": "MCC",
-            "semverRange": ">=3.95.0"
+            "semverRange": ">=5.7.1"
         },
         "device": {
             "metaDataVersion": "1.0.0",
