@@ -3,7 +3,7 @@
 # Automated LED Display Driver Using PIC18-Q43 
 
 ## Introduction
-This project highlights the use of the PIC18-Q43 family’s new DMA peripheral to create a state machine which drives a common cathode 4 digit LED display application. A table in GPR data memory contains the display and digit drive values, the DMA peripheral transfers the data from the memory to PORTA and PORTB, and Timer0 (TMR0) triggers the DMA transfer. The table contains 8 values for 4 digits of display, the even number entries are the 7 segment drive, and the odd are the digit drives.
+This project highlights the use of the PIC18-Q43 family’s new Direct Memory Access (DMA) peripheral to create a state machine which drives a common cathode 4-digit LED display application. Using a table in General Purpose Registers (GPR) data which contains the display and digit drive values, the DMA peripheral transfers the data from the memory to PORTA and PORTB, and Timer0 (TMR0) triggers the DMA transfer. The table contains eight values for 4-digits of display, the even number entries are the 7-segment drive, and the odd are the digit drives.
 
 #### Curiosity Nano Development Board:
 ![nano board](images/Nano.png)
@@ -16,23 +16,23 @@ This project highlights the use of the PIC18-Q43 family’s new DMA peripheral t
 
 ## Hardware Used
 - [PIC18F57Q43 Curiosity Nano Evaluation Kit (DM164150)](https://www.microchip.com/en-us/development-tool/DM164150)
-- [Curiosity Nano Base for Click Boards (AC164162)](https://www.microchip.com/en-us/development-tool/ac164162)
+- [Curiosity Nano Base for Click Boards&#x2122; (AC164162)](https://www.microchip.com/en-us/development-tool/ac164162)
 
-## Demo Configuration:
-The Curiosity Nano Adapter Board is used in conjunction with the Curiosity Nano Base for Click Boards, and a solder-less breadboard as the development platform. The Nano Base board has three MikroElektronika Click board slots, several types of power connections, voltage regulation circuitry, and a header mount for the Nano Development board. For this project the Nano Base board was used as a connection platform for connecting to the microcontroller via header pins.
+## Demo Configuration
+The Curiosity Nano Adapter board is used in conjunction with the Curiosity Nano Base for Click boards and a solderless breadboard as the development platform. The Nano Base board has three MikroElektronika Click board slots, several types of power connections, voltage regulation circuitry, and a header mount for the Nano Development board. For this project, the Nano Base board was used as a connection platform for connecting to the microcontroller via header pins.
 
 
-### Complete Project schematic:
-![complete project schematic](images/Display_Schematic.png)
+### Complete Project schematic
+![complete project schematic](images/Project_Schematic.png)
 
 ### Complete Project Setup:
 ![Complete project setup](images/LED.png)
 
-### Project Software Configuration:
-The project software was developed in MPLAB X with the help of MPLAB Code Configurator (MCC) plug-in tool. MCC provides a user-friendly interface that generates software based on the user’s parameters. MCC allows developers who may not be familiar with a new peripheral a way to quickly set up and test a peripheral without having to dive deep into the device datasheet. For this project, MCC was used to generate code for the and TMR0 modules.
+### Project Software Configuration
+The project software was developed in MPLAB X with the help of the MPLAB Code Configurator (MCC) plug-in tool. MCC provides a user-friendly interface that generates software based on the user’s parameters, allowing developers to quickly set up a new peripheral without having to dive deep into the device datasheet. For this project, MCC was used to generate code for the DMA and TMR0 modules.
 
 ## TMR0 Configuration
-TMR0 was configured to output a frequency of 400Hz, which will generate a 100Hz update rate for the display.
+TMR0 was configured to output a frequency of 400 Hz, which will generate a 100 Hz update rate for the display.
 
 ### TMR0 Settings
 - Timer Enable: Enabled
@@ -45,10 +45,10 @@ TMR0 was configured to output a frequency of 400Hz, which will generate a 100Hz 
 - TMR Interrupt Enabled: Disabled
 
 ## PORTA and PORTB Configuration
-PORTA was configured as all output and initially low. PORTB was configured with bits 0-3 as outputs and initially low.
+PORTA was configured entirely as output and set to an initial low state. PORTB was configured with bits 0-3 as outputs and also set to an initial low state.
 
 ## DMA1 Configuration
-The DMA1 peripheral is used to transfer the wave data from the array in GPR data memory, to the LATA and LATB registers. The timing of the transfer is regulated by the roll over frequency of TMR0. Additionally, the priority of DMA1 is set to the highest priority to minimize the latency time.
+The DMA1 peripheral is used to transfer the wave data from the array in GPR data memory to the LATA and LATB registers. The timing of the transfer is regulated by the roll over frequency of TMR0. Additionally, the priority of DMA1 is set to the highest priority to minimize the latency time.
 
 ### DMA1 Settings
 - DMA Enable: Enabled 
@@ -57,7 +57,7 @@ The DMA1 peripheral is used to transfer the wave data from the array in GPR data
 - Source Region: GPR
 - Source Variable: displayBuffer
 - Source Size: 8
-- Source Mode: incremented
+- Source Mode: Incremented
 - Source Message Size: 8
 - Source Counter Reload Action: SIRQEN is not cleared
 - Destination Region: SFR
@@ -67,8 +67,8 @@ The DMA1 peripheral is used to transfer the wave data from the array in GPR data
 - Destination Counter Reload Action: SIRQEN is not cleared
 
 
-## Display and 7 segment data table arrays:
-The data table for display and 7 segment conversion are uint8_t arrays. The buffer array is preloaded with the appropriate digit drive values and a blank segment drive
+## Display and 7-segment Data Table Arrays:
+The data table for display and 7-segment conversion are uint8_t arrays. The buffer array is preloaded with the appropriate digit drive values and a blank segment drive.
 
 ```c
 // 7 segment and buffer arrays
