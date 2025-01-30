@@ -22,14 +22,14 @@ This project highlights the use of the PIC18-Q43 family’s new Direct Memory Ac
 The Curiosity Nano Adapter board is used in conjunction with the Curiosity Nano Base for Click boards and a solderless breadboard as the development platform. The Nano Base board has three MikroElektronika Click board slots, several types of power connections, voltage regulation circuitry, and a header mount for the Nano Development board. For this project, the Nano Base board was used as a connection platform for connecting to the microcontroller via header pins.
 
 
-### Complete Project schematic
+### Complete Project Schematic
 ![complete project schematic](images/Project_Schematic.png)
 
-### Complete Project Setup:
+### Complete Project Setup
 ![Complete project setup](images/LED.png)
 
 ### Project Software Configuration
-The project software was developed in MPLAB X with the help of the MPLAB Code Configurator (MCC) plug-in tool. MCC provides a user-friendly interface that generates software based on the user’s parameters, allowing developers to quickly set up a new peripheral without having to dive deep into the device datasheet. For this project, MCC was used to generate code for the DMA and TMR0 modules.
+The project software was developed in MPLAB X with the help of the MPLAB Code Configurator (MCC) plug-in tool. MCC provides a user-friendly interface that generates software based on the user’s parameters, allowing developers to quickly set up a new peripheral without having to dive deep into the device data sheet. For this project, MCC was used to generate code for the DMA and TMR0 modules.
 
 ## TMR0 Configuration
 TMR0 was configured to output a frequency of 400 Hz, which will generate a 100 Hz update rate for the display.
@@ -67,7 +67,7 @@ The DMA1 peripheral is used to transfer the wave data from the array in GPR data
 - Destination Counter Reload Action: SIRQEN is not cleared
 
 
-## Display and 7-segment Data Table Arrays:
+## Display and 7-segment Data Table Arrays
 The data table for display and 7-segment conversion are uint8_t arrays. The buffer array is preloaded with the appropriate digit drive values and a blank segment drive.
 
 ```c
@@ -80,10 +80,10 @@ unsigned char buffer[8] = {0x00, 0x01, 0x00, 0x02, 0x00, 0x04, 0x00, 0x08};
 
 ```
 
-## System Configuration:
+## System Configuration
 MCC can be used to configure basic system parameters, such as oscillator selection and other I/O pin configuration.
-Once all project parameters have been configured, simply press the ‘Generate’ button, and MCC will generate the drivers based on user inputs.
+Once all project parameters have been configured,  press the Generate button, and MCC will generate the drivers based on user inputs.
 
 
-# Conclusion:
-This project uses the PIC18F57Q43 microcontroller’s TMR0, GPIOs, and DMA modules to create an automated 7-segment LED display driver that operates completely without firmware overhead. The state machine design is based on using the source address counter in the DMA as the state latch, increment the state machine from 0-7 and then rolling over. During each state, the DMA module transfers an appropriate value from the display buffer to the PORTs.
+# Conclusion
+This project uses the PIC18F57Q43 microcontroller’s TMR0, GPIOs and DMA modules to create an automated 7-segment LED display driver that operates completely without firmware overhead. The state machine design is based on using the source address counter in the DMA as the state latch, incrementing the state machine from 0-7 and then rolling over. During each state, the DMA module transfers an appropriate value from the display buffer to the PORTs.
